@@ -6,6 +6,7 @@
 
 #include "itemlist.h"
 #include <iostream>
+#include <string>
 #include <iomanip>
 using namespace std;
 
@@ -40,8 +41,7 @@ int main()
             break;
         case '4':
             cout << "请输入你要查询的物品的名字：";
-            cin >> query_name;
-            cin.get(); // 吸收换行符
+            getline(cin, query_name);
             list.search(query_name);
             break;
         case 'q':
@@ -49,7 +49,7 @@ int main()
         default:
             cout << "没有此指令，请重新输入!";
         }
-        cout << "************请输入下一个操作指令************\n";
+        cout << "\n************请输入下一个操作指令************\n";
     }
     return 0;
 }

@@ -53,8 +53,8 @@ private:
     int num_item; // 列表内物品数量
     Node *head, *tail; // 起始结点和尾结点
 
-    //void getList(); // 从外部文件获取列表
-    //void saveList(); // 保存文件到外部列表
+    void getList(); // 从外部文件获取列表
+    void saveList(); // 保存列表到外部文件
 };
 
 #endif

@@ -7,13 +7,14 @@
 #include "itemlist.h"
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 #include <string>
 using namespace std;
 
 // 显示表头
 void showHeader()
 {
-    cout << setw(5) << "编号";
+    cout << setw(5) << "\n编号";
     cout << setw(20) << "物品名称";
     cout << setw(10) << "物品数量";
     cout << setw(15) << "物品持有人";
@@ -52,6 +53,56 @@ ostream &operator<<(ostream &os, Item &i)
     return os;
 }
 
+void ItemList::getList()
+{
+    Item get_item;
+    ifstream fin("listdata.csv");
+    if (fin)
+    {
+        while (!fin.eof())
+        {
+            getline(fin, get_item.m_name, ',');
+            string s_num; // 临时以字符串形式保存数字
+            if (get_item.m_name == "") break; // 检测是否为空行
+            getline(fin, s_num, ',');
+            get_item.m_num = stoi(s_num);
+            getline(fin, get_item.m_owner, ',');
+            getline(fin, get_item.m_tel, ',');
+            getline(fin, s_num); // 文件读取位置换行
+
+            Node *temp = new Node(get_item);
+            temp->prev = tail->prev;
+            temp->next = tail;
+            tail->prev->next = temp;
+            tail->prev = temp;
+            ++num_item;
+        }
+        fin.close();
+    }
+}
+
+void ItemList::saveList()
+{
+    Node *temp = head->next;
+    ofstream fout("listdata.csv");
+    if (!fout)
+    {
+        cout << "保存物品列表失败！" << endl;
+        return;
+    }
+    while (temp != tail)
+    {
+        //将链表中的Item类以二进制形式存入外部文件
+        fout << temp->m_item.m_name << ",";
+        fout << temp->m_item.m_num << ",";
+        fout << temp->m_item.m_owner << ",";
+        fout << temp->m_item.m_tel << ",";
+        fout << endl;
+        temp = temp->next;
+    }
+    fout.close();
+}
+
 // ItemList构造函数
 ItemList::ItemList()
 {
@@ -60,7 +111,7 @@ ItemList::ItemList()
     head->next = tail;
     tail->prev = head;
     num_item = 0;
-    //getList();
+    getList();
 }
 
 // ItemList的析构函数
@@ -87,6 +138,7 @@ void ItemList::add()
     tail->prev = temp;
     cout << "物品" << add_item.m_name << "添加成功！" << endl;
     ++num_item;
+    saveList(); // 保存当前的列表到csv文件
 }
 
 // 显示物品列表
@@ -123,6 +175,8 @@ void ItemList::remove(int index)
     temp->prev->next = temp->next;
     delete temp;
     cout << "成功删除编号为" << index << "的物品" << temp_name << "！" << endl;
+    --num_item;
+    saveList();
 }
 
 // 搜索物品
