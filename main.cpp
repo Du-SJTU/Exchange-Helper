@@ -1,12 +1,13 @@
 ///////////////////////////////
 // File: main.cpp
-// Author: 杜佳杰
+// Author: Du
 // Function: 主程序
 ///////////////////////////////
 
 #include "itemlist.h"
 #include <iostream>
 #include <string>
+#include <cctype>
 #include <iomanip>
 using namespace std;
 
@@ -44,6 +45,23 @@ int main()
             getline(cin, query_name);
             list.search(query_name);
             break;
+        case 'r':
+            while (true)
+            {
+                cout << "你确定要重置列表吗（y/n）：";
+                cin >> op;
+                cin.get();
+                if (tolower(op) == 'y')
+                {
+                    list.reset();
+                    break;
+                }
+                else if (tolower(op) == 'n')
+                {
+                    break;
+                }
+            }
+            break;
         case 'q':
             exit(0);
         default:
@@ -68,5 +86,6 @@ void showTips()
     cout << "2.删除物品" << endl;
     cout << "3.查看列表" << endl;
     cout << "4.搜索列表" << endl;
+    cout << "r.重置列表" << endl;
     cout << "q.退出程序" << endl;
 }

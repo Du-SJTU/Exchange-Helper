@@ -1,6 +1,6 @@
 ///////////////////////////////
 // File: item.h
-// Author: 杜佳杰
+// Author: Du
 // Function: ItemList类的原型
 ///////////////////////////////
 
@@ -9,7 +9,6 @@
 
 #include <string>
 using namespace std;
-
 // Item结构体用于保存物品的相关信息
 struct Item {
     int m_num; // 物品数量
@@ -25,7 +24,6 @@ struct Item {
 // 重载输入输出运算符以获得或输出物品信息
 istream &operator>>(istream &is, Item &i);
 ostream &operator<<(ostream &os, Item &i);
-
 // ItemList为物品列表，采用双链表实现
 class ItemList {
 public:
@@ -36,7 +34,8 @@ public:
     void remove(int index); // 根据物品的序号移除物品
     void showList(); // 显示所有物品
     void search(string name); // 搜索物品
-    
+    void reset();
+
 private:
     // 双链表结点
     struct Node 

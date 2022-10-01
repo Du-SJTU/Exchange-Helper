@@ -1,6 +1,6 @@
 ///////////////////////////////
 // File: list_functions.cpp
-// Author: 杜佳杰
+// Author: Du
 // Function: ItemList类的成员函数
 ///////////////////////////////
 
@@ -208,4 +208,19 @@ void ItemList::search(string name)
     {
         cout << "\n\n共搜索到" << cnt << "条结果" << endl;
     }
+}
+
+// 重置列表
+void ItemList::reset()
+{
+    Node *temp = head;
+    for (int i = 0; i < num_item; ++i) {
+        temp = temp->next;
+
+        temp->next->prev = temp->prev;
+        temp->prev->next = temp->next;
+        delete temp;
+    }
+    num_item = 0;
+    saveList();
 }
