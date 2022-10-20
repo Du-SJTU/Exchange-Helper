@@ -34,7 +34,7 @@ public:
     void remove(int index); // 根据物品的序号移除物品
     void showList(); // 显示所有物品
     void search(string name); // 搜索物品
-    void reset();
+    void reset(); // 重置列表
 
 private:
     // 双链表结点

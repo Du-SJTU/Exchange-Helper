@@ -11,8 +11,8 @@
 #include <iomanip>
 using namespace std;
 
-void showWelcome();
-void showTips();
+void showWelcome(); // 显示欢迎语句
+void showTips(); // 显示使用说明
 
 int main()
 {

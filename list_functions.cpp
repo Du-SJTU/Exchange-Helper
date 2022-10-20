@@ -22,7 +22,9 @@ void showHeader()
     cout << endl;
 }
 
-// Item的输入输出重载
+// Item的输入重载
+// 输入参数：i 需要输入的物品对象
+// 需要输入物品的名称、数量、持有人的姓名和电话
 istream &operator>>(istream &is, Item &i)
 {
     cout << "请输入物品名称：";
@@ -44,6 +46,9 @@ istream &operator>>(istream &is, Item &i)
     return is;
 }
 
+// Item的输出重载
+// 输入参数：i 需要输出的物品对象
+// 将物品的名称、数量、持有人的姓名和电话格式化输出
 ostream &operator<<(ostream &os, Item &i)
 {
     cout << setw(20) << i.m_name;
@@ -53,6 +58,7 @@ ostream &operator<<(ostream &os, Item &i)
     return os;
 }
 
+// 从文件中读取物品列表
 void ItemList::getList()
 {
     Item get_item;
@@ -65,11 +71,11 @@ void ItemList::getList()
             string s_num; // 临时以字符串形式保存数字
             if (get_item.m_name == "") break; // 检测是否为空行
             getline(fin, s_num, ',');
-            get_item.m_num = stoi(s_num);
+            get_item.m_num = stoi(s_num); // 将数字字符串转换成整数
             getline(fin, get_item.m_owner, ',');
             getline(fin, get_item.m_tel, ',');
             getline(fin, s_num); // 文件读取位置换行
-
+            // 链表中增加结点保存物品
             Node *temp = new Node(get_item);
             temp->prev = tail->prev;
             temp->next = tail;
@@ -81,6 +87,7 @@ void ItemList::getList()
     }
 }
 
+// 将物品列表保存到文件
 void ItemList::saveList()
 {
     Node *temp = head->next;
@@ -92,7 +99,7 @@ void ItemList::saveList()
     }
     while (temp != tail)
     {
-        //将链表中的Item类以二进制形式存入外部文件
+        //将链表中的Item类各数据存入外部文件listdata.csv
         fout << temp->m_item.m_name << ",";
         fout << temp->m_item.m_num << ",";
         fout << temp->m_item.m_owner << ",";
@@ -157,6 +164,7 @@ void ItemList::showList()
 }
 
 // 根据物品的序号移除物品
+// 输入参数：index 搜索物品的序号
 void ItemList::remove(int index)
 {
     // 判断是否存在该编号的物品
@@ -180,6 +188,7 @@ void ItemList::remove(int index)
 }
 
 // 搜索物品
+// 输入参数：name 搜索物品的名字
 void ItemList::search(string name)
 {
     Node *temp = head->next;
@@ -210,17 +219,17 @@ void ItemList::search(string name)
     }
 }
 
-// 重置列表
+// 重置列表，即将链表清空
 void ItemList::reset()
 {
     Node *temp = head;
+    // 逐个删除链表元素
     for (int i = 0; i < num_item; ++i) {
         temp = temp->next;
-
         temp->next->prev = temp->prev;
         temp->prev->next = temp->next;
         delete temp;
     }
     num_item = 0;
-    saveList();
+    saveList(); // 将重置的列表保存
 }
